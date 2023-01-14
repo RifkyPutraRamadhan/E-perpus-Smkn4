@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h3 class="mb-3">Data Pengguna</h3>
+        <a href="{% url 'signup' %}" class="btn btn-primary">Tambah</a>
+        <a href="" class="btn btn-success">Export .xls</a>
+
+      {% for message in messages %}
+        {% if message %}
+          <div class="alert alert-success">{{ message }}</div>
+        {% endif %}
+      {% endfor %}
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>NO.</th>
+            <th>USERNAME</th>
+            <th>STAFF</th>
+            <th>SUPERUSER</th>
+            <th>ACTION</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>{{ forloop.counter }}.</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.is_staff }}</td>
+            <td>{{ user.is_superuser }}</td>
+            <td>
+         <button type="button" data-bs-toggle="modal" data-bs-target="#hapus-{{ user.username }}" class="btn btn-danger">Hapus</button>
+            </td>
+          <div class="modal hide fade" id="hapus-{{ user.username }}">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <div class="modal-title">
+                        <h3>Hapus</h3>
+                      </div>
+                    </div>
+                   <div class="modal-body">
+                     Apakah anda yakin ingin menghapus Pengguna <strong>{{ user.username | upper }}</strong>?
+                   </div> 
+                   <div class="modal-footer">
+                     <a href="" class="btn btn-danger">Hapus</a>
+                     <button data-bs-dismiss="modal" class="btn btn-dark" type="submit">Tidak</button>
+                     </div>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
